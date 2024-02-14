@@ -36,3 +36,83 @@ document.addEventListener("DOMContentLoaded", function () {
     // Trigger the check on page load
     handleScroll();
 });
+
+
+
+
+
+
+
+//    counter animation
+let hasScrolled = false;
+let happyTravelersCounted = false;
+let destinationsCounted = false;
+let positiveReviewsCounted = false;
+
+
+function startCounting(elementId, targetValue, showPlus = true) {
+    const element = document.getElementById(elementId);
+    let currentValue = 0;
+    const increment = 5; // Adjust this value for speed
+    const animationDuration = 2000; // Adjust this value for the animation duration
+
+    function updateCount(timestamp) {
+        if (!currentValue) currentValue = timestamp;
+
+        const progress = (timestamp - currentValue) / animationDuration;
+        const incrementValue = Math.ceil(targetValue * progress);
+
+        if (incrementValue < targetValue) {
+            element.textContent = showPlus ? `${incrementValue.toLocaleString()}%` : `${incrementValue.toLocaleString()}`;
+            requestAnimationFrame((timestamp) => updateCount(timestamp));
+        } else {
+            element.textContent = showPlus ? `${targetValue.toLocaleString()}%` : `${targetValue.toLocaleString()}`;
+        }
+    }
+
+    requestAnimationFrame((timestamp) => updateCount(timestamp));
+}
+
+function handleVisibility() {
+    if (!hasScrolled) {
+        // If user hasn't scrolled, set the flag to true and return
+        hasScrolled = true;
+        return;
+    }
+
+    const happyTravelersElement = document.getElementById("happyTravelersCount");
+    const destinationsElement = document.getElementById("destinationsCount");
+    const positiveReviewsElement = document.getElementById("positiveReviewsCount");
+
+    if (!happyTravelersCounted && isInViewport(happyTravelersElement)) {
+        startCounting("happyTravelersCount", 100);
+        happyTravelersCounted = true;
+    }
+
+    if (!destinationsCounted && isInViewport(destinationsElement)) {
+        startCounting("destinationsCount", 97);
+        destinationsCounted = true;
+    }
+
+    if (!positiveReviewsCounted && isInViewport(positiveReviewsElement)) {
+        startCounting("positiveReviewsCount", 99);
+        positiveReviewsCounted = true;
+    }
+}
+
+function isInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+        rect.top <= window.innerHeight * 3 / 4 &&
+        rect.bottom >= 0
+    );
+}
+
+document.addEventListener("DOMContentLoaded", handleVisibility);
+window.addEventListener("scroll", handleVisibility);
+
+$(".hover").mouseleave(
+    function () {
+      $(this).removeClass("hover");
+    }
+);
