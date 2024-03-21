@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   padding: 0;
@@ -2583,4 +2584,12 @@ button:hover {
   margin-top: 8px;
   color: #000000;
   font-size: 13px;
+}
+
+
+
+
+.cardredirect{
+  text-decoration: none;
+  color: #000;
 }
